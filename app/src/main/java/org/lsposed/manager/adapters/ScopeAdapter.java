@@ -245,17 +245,10 @@ public class ScopeAdapter extends EmptyStateRecyclerView.EmptyStateAdapter<Scope
             return;
         }
 
-        var tmpChkList = new HashSet<>(checkedList);
-        tmpChkList.removeIf(i -> i.userId == module.userId);
-        var tmpDenyList = new HashSet<>(denyList);
-        // Filter recommended list to exclude deny list items
-        for (ApplicationWithEquals app : recommendedList) {
-            if (!tmpDenyList.contains(app.packageName)) {
-                tmpChkList.add(app);
-            }
-        }
-
         fragment.runAsync(() -> {
+            var tmpChkList = new HashSet<>(checkedList);
+            tmpChkList.removeIf(i -> i.userId == module.userId);
+            tmpChkList.addAll(recommendedList);
             ConfigManager.setModuleScope(module.packageName, module.legacy, tmpChkList);
             checkedList = tmpChkList;
             fragment.runOnUiThread(this::notifyDataSetChanged);
