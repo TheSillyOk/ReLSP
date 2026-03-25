@@ -52,6 +52,7 @@ jobs:
         with:
           repository: libxposed/service
           path: libxposed/service
+          ref: ee4c51628baea91c96f05633102293cad7cca8da
 
       - name: Setup Java
         uses: actions/setup-java@v4
